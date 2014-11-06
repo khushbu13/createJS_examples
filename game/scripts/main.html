@@ -1,0 +1,64 @@
+<!DOCTYPE>
+        <html>
+<head>
+<title>EaselJS Game</title>
+        <script src="../lib/createjs.min.js"></script>
+    <script src="../lib/easeljs-0.7.1.min.js"></script>
+
+<script>
+    var canvas;
+    var stage;
+    var bg;
+    var score;
+    var bmplist;
+    var bitmap;
+
+    function init(){
+        canvas= document.getElementById("canvas");
+        stage= new createjs.Stage(canvas);
+        score=0;
+
+        bg=new Image();
+        bg.src="../images/space.jpg";
+        bg.onload=setBG;
+
+
+    }
+    function createPlanes(event){
+        var image= event.target;
+        var container=new createjs.Container();
+        stage.addChild(container);
+        var l=5;
+        bmplist=[];
+        for(var i=0;i<l;i++){
+            bitmap=new createjs.Bitmap(image);
+            container.addChild(bitmap);
+            bitmap.name="plane"+i;
+            resetEnemy(bitmap);
+            bitmap.regX=bitmap.image.width/2|0;
+            bitmap.regY=bitmap.image.height/2|0;
+            bitmap.mouseEnabled=true;
+            bmplist.push(bitmap);
+
+        }
+        stage.update();
+    }
+    function resetEnemy(plane){
+        plane.x = canvas.width - Math.random() * 500;
+        plane.y = canvas.height - Math.random()*500;
+        plane.speed=(Math.random()*5)+2;
+    }
+    function setBG(event){
+        var bkgrnd= new createjs.Bitmap(bg);
+        stage.addChild(bkgrnd);
+
+        var plane=new Image();
+        plane.src="../images/ship.png";
+        plane.onload= createPlanes;
+    }
+</script>
+        </head>
+<body onload="init();">
+    <canvas id="canvas" width="960" height="580"></canvas>
+</body>
+</html>
